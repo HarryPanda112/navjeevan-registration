@@ -8,6 +8,7 @@
 </head>
 <body>
 
+  <!-- Navbar -->
   <header>
     <nav class="navbar">
       <div class="logo">Navjeevan Activities</div>
@@ -19,6 +20,7 @@
     </nav>
   </header>
 
+  <!-- Registration Form -->
   <div class="container">
     <h2>Activity Registration</h2>
     <form id="registrationForm">
@@ -41,10 +43,21 @@
     </form>
   </div>
 
+  <!-- Success Modal -->
+  <div id="successModal" class="modal">
+    <div class="modal-content">
+      <h3>✅ Payment Successful!</h3>
+      <p id="paymentMsg">Thank you for registering.</p>
+      <button onclick="closeModal()">Close</button>
+    </div>
+  </div>
+
+  <!-- Footer -->
   <footer>
     <p>&copy; 2025 Navjeevan School | Mira Road, Mumbai | Contact: 9876543210</p>
   </footer>
 
+  <!-- JS Script -->
   <script>
     const fees = {
       Football: 5000,
@@ -68,15 +81,14 @@
       }
 
       const options = {
-        key: "rzp_test_1DP5mmOlF5G5ag", // Replace with live Razorpay key when ready
+        key: "rzp_test_1DP5mmOlF5G5ag", // Replace with your live Razorpay key
         amount: fee * 100,
         currency: "INR",
         name: "Navjeevan School",
         description: `${activity} Registration`,
         handler: function (response) {
-          alert("✅ Payment successful! ID: " + response.razorpay_payment_id);
+          showSuccessModal(response.razorpay_payment_id);
 
-          // Optional: Submit to Google Sheets
           fetch("https://script.google.com/macros/s/AKfycbwxjtpKyc0IreAlbd1KCopKIliy3tAbQJmYvJN8n3ceS2PYpD7pGThlM4nXAEy0oq3x/exec", {
             method: "POST",
             mode: "no-cors",
@@ -107,6 +119,15 @@
       const rzp = new Razorpay(options);
       rzp.open();
     });
+
+    function showSuccessModal(paymentId) {
+      document.getElementById("paymentMsg").innerHTML = `Your Payment ID is <strong>${paymentId}</strong>`;
+      document.getElementById("successModal").style.display = "block";
+    }
+
+    function closeModal() {
+      document.getElementById("successModal").style.display = "none";
+    }
   </script>
 </body>
 </html>
