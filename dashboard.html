@@ -1,14 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Register - Navjeevan</title>
+  <meta charset="UTF-8">
+  <title>Dashboard - Navjeevan</title>
   <link rel="stylesheet" href="style.css" />
-  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 </head>
 <body>
-
-  <!-- Navbar -->
   <header>
     <nav class="navbar">
       <div class="logo">Navjeevan Activities</div>
@@ -20,114 +17,103 @@
     </nav>
   </header>
 
-  <!-- Registration Form -->
   <div class="container">
-    <h2>Activity Registration</h2>
-    <form id="registrationForm">
-      <input type="text" id="name" placeholder="Full Name" required />
-      <input type="tel" id="mobile" placeholder="Mobile Number" required />
-      <input type="email" id="email" placeholder="Email" required />
+    <h2>📋 Registration Dashboard</h2>
+    <input type="text" id="searchInput" placeholder="Search by name, activity or email...">
+    <button onclick="exportToCSV()">Export CSV</button>
 
-      <label for="activity">Choose Activity</label>
-      <select id="activity" required>
-        <option value="">-- Select Activity --</option>
-        <option value="Football">⚽ Football (₹5000)</option>
-        <option value="Cricket">🏏 Cricket (₹6000)</option>
-        <option value="Gymnastics">🤸‍♀️ Gymnastics (₹7000)</option>
-      </select>
-
-      <label for="startdate">Start Date</label>
-      <input type="date" id="startdate" required />
-
-      <button type="submit">Pay & Register</button>
-    </form>
+    <div class="loader" id="loader">Loading data...</div>
+    <table id="dataTable" style="display:none;">
+      <thead>
+        <tr>
+          <th>Timestamp</th>
+          <th>Name</th>
+          <th>Mobile</th>
+          <th>Email</th>
+          <th>Activity</th>
+          <th>Start Date</th>
+          <th>Days Left</th>
+          <th>Fee</th>
+          <th>Payment ID</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
   </div>
 
-  <!-- Success Modal -->
-  <div id="successModal" class="modal">
-    <div class="modal-content">
-      <h3>✅ Payment Successful!</h3>
-      <p id="paymentMsg">Thank you for registering.</p>
-      <button onclick="closeModal()">Close</button>
-    </div>
-  </div>
-
-  <!-- Footer -->
   <footer>
     <p>&copy; 2025 Navjeevan School | Mira Road, Mumbai | Contact: 9876543210</p>
   </footer>
 
-  <!-- JS Script -->
   <script>
-    const fees = {
-      Football: 5000,
-      Cricket: 6000,
-      Gymnastics: 7000
-    };
+    const sheetURL = "https://script.google.com/macros/s/AKfycbwxjtpKyc0IreAlbd1KCopKIliy3tAbQJmYvJN8n3ceS2PYpD7pGThlM4nXAEy0oq3x/exec";
 
-    document.getElementById("registrationForm").addEventListener("submit", function (event) {
-      event.preventDefault();
+    fetch(sheetURL)
+      .then(response => {
+        if (!response.ok) throw new Error("Network response was not OK");
+        return response.json();
+      })
+      .then(data => {
+        const table = document.getElementById("dataTable");
+        const tbody = table.querySelector("tbody");
+        const loader = document.getElementById("loader");
 
-      const name = document.getElementById("name").value.trim();
-      const mobile = document.getElementById("mobile").value.trim();
-      const email = document.getElementById("email").value.trim();
-      const activity = document.getElementById("activity").value;
-      const startdate = document.getElementById("startdate").value;
-      const fee = fees[activity];
+        data.forEach(row => {
+          const start = new Date(row.startdate);
+          const end = new Date(start);
+          end.setMonth(end.getMonth() + 3);
+          const today = new Date();
+          const timeDiff = end - today;
+          const daysLeft = timeDiff > 0 ? Math.ceil(timeDiff / (1000 * 60 * 60 * 24)) : 0;
 
-      if (!fee) {
-        alert("❗ Please select a valid activity.");
-        return;
-      }
+          const tr = document.createElement("tr");
+          tr.innerHTML = `
+            <td>${row.timestamp}</td>
+            <td>${row.name}</td>
+            <td>${row.mobile}</td>
+            <td>${row.email}</td>
+            <td>${row.activity}</td>
+            <td>${row.startdate}</td>
+            <td>${daysLeft} days</td>
+            <td>₹${row.fee}</td>
+            <td>${row.payment_id}</td>
+          `;
+          tbody.appendChild(tr);
+        });
 
-      const options = {
-        key: "rzp_test_1DP5mmOlF5G5ag", // Replace with your live Razorpay key
-        amount: fee * 100,
-        currency: "INR",
-        name: "Navjeevan School",
-        description: `${activity} Registration`,
-        handler: function (response) {
-          showSuccessModal(response.razorpay_payment_id);
+        loader.style.display = "none";
+        table.style.display = "table";
+      })
+      .catch(error => {
+        document.getElementById("loader").textContent = "❌ Failed to load data!";
+        console.error("Fetch error:", error);
+      });
 
-          fetch("https://script.google.com/macros/s/AKfycbwxjtpKyc0IreAlbd1KCopKIliy3tAbQJmYvJN8n3ceS2PYpD7pGThlM4nXAEy0oq3x/exec", {
-            method: "POST",
-            mode: "no-cors",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              name,
-              mobile,
-              email,
-              activity,
-              startdate,
-              fee,
-              payment_id: response.razorpay_payment_id
-            })
-          });
+    function exportToCSV() {
+      const rows = document.querySelectorAll("table tr");
+      const csv = Array.from(rows).map(row => {
+        return Array.from(row.children).map(cell => `"${cell.innerText}"`).join(",");
+      }).join("\n");
 
-          document.getElementById("registrationForm").reset();
-        },
-        prefill: {
-          name,
-          email,
-          contact: mobile
-        },
-        theme: {
-          color: "#003366"
-        }
-      };
+      const blob = new Blob([csv], { type: "text/csv" });
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.setAttribute("hidden", "");
+      a.setAttribute("href", url);
+      a.setAttribute("download", "registrations.csv");
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    }
 
-      const rzp = new Razorpay(options);
-      rzp.open();
+    document.getElementById("searchInput").addEventListener("input", function() {
+      const filter = this.value.toLowerCase();
+      const rows = document.querySelectorAll("#dataTable tbody tr");
+      rows.forEach(row => {
+        const text = row.innerText.toLowerCase();
+        row.style.display = text.includes(filter) ? "" : "none";
+      });
     });
-
-    function showSuccessModal(paymentId) {
-      document.getElementById("paymentMsg").innerHTML = `Your Payment ID is <strong>${paymentId}</strong>`;
-      document.getElementById("successModal").style.display = "block";
-    }
-
-    function closeModal() {
-      document.getElementById("successModal").style.display = "none";
-    }
   </script>
 </body>
 </html>
