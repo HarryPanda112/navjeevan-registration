@@ -2,31 +2,60 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Register - Navjeevan</title>
+  <title>Navjeevan Activities - Home</title>
   <link rel="stylesheet" href="style.css" />
-  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 </head>
 <body>
-  <div class="container">
-    <h2>Activity Registration</h2>
-    <form id="registrationForm">
-      <input type="text" id="name" placeholder="Full Name" required />
-      <input type="tel" id="mobile" placeholder="Mobile Number" required />
-      <input type="email" id="email" placeholder="Email" required />
 
-      <label for="activity">Choose Activity</label>
-      <select id="activity" class="styled-select" required>
-        <option value="">-- Select Activity --</option>
-        <option value="Football">⚽ Football (Mon, Wed, Thu - 7PM to 8PM)</option>
-        <option value="Cricket">🏏 Cricket (Tue, Fri 7–8:30PM & Sat, Sun 7–8:30AM)</option>
-        <option value="Gymnastics">🤸‍♀️ Gymnastics (Mon & Wed 7:30–8:30PM)</option>
-      </select>
+  <!-- Navbar -->
+  <header>
+    <nav class="navbar">
+      <div class="logo">Navjeevan Activities</div>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="register.html">Register</a></li>
+        <li><a href="admin.html" class="admin-btn">Admin Login</a></li>
+      </ul>
+    </nav>
+  </header>
 
-      <input type="date" id="startdate" required />
-      <input type="number" id="fee" placeholder="Fee (optional)" value="500" />
-      <button type="submit">Pay & Register</button>
-    </form>
-  </div>
-  <script src="script.js"></script>
+  <!-- Hero Section -->
+  <section class="hero">
+    <h1>Welcome to Navjeevan School Activities</h1>
+    <p>Join our exciting sports and fitness programs to stay active and learn new skills!</p>
+    <a href="register.html" class="cta-button">Register Now</a>
+  </section>
+
+  <!-- Activities Section -->
+  <section class="activities">
+    <h2>Our Activities</h2>
+    <div class="activity-list">
+
+      <div class="activity-card">
+        <img src="football.jpg" alt="Football" />
+        <h3>Football</h3>
+        <p>⚽ Mon, Wed, Thu - 7PM to 8PM</p>
+      </div>
+
+      <div class="activity-card">
+        <img src="cricket.jpg" alt="Cricket" />
+        <h3>Cricket</h3>
+        <p>🏏 Tue & Fri 7–8:30PM<br>Sat & Sun 7–8:30AM</p>
+      </div>
+
+      <div class="activity-card">
+        <img src="gymnastics.jpg" alt="Gymnastics" />
+        <h3>Gymnastics</h3>
+        <p>🤸‍♀️ Mon & Wed 7:30PM–8:30PM</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2025 Navjeevan School | Mira Road, Mumbai | Contact: 9876543210</p>
+  </footer>
+
 </body>
 </html>

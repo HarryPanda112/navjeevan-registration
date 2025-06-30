@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Register - Navjeevan</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <header>
+    <nav class="navbar">
+      <div class="logo">Navjeevan Activities</div>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="register.html">Register</a></li>
+        <li><a href="admin.html" class="admin-btn">Admin Login</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Registration Form -->
+  <div class="container">
+    <h2>Activity Registration</h2>
+    <form id="registrationForm">
+      <input type="text" id="name" placeholder="Full Name" required />
+      <input type="tel" id="mobile" placeholder="Mobile Number" required />
+      <input type="email" id="email" placeholder="Email" required />
+      <label for="activity">Choose Activity</label>
+      <select id="activity" required>
+        <option value="">-- Select Activity --</option>
+        <option value="Football">⚽ Football</option>
+        <option value="Cricket">🏏 Cricket</option>
+        <option value="Gymnastics">🤸‍♀️ Gymnastics</option>
+      </select>
+      <input type="date" id="startdate" required />
+      <button type="submit">Pay & Register</button>
+    </form>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2025 Navjeevan School | Mira Road, Mumbai | Contact: 9876543210</p>
+  </footer>
+
+  <script>
+    const fees = {
+      Football: 5000,
+      Cricket: 6000,
+      Gymnastics: 7000
+    };
+
+    document.getElementById("registrationForm").addEventListener("submit", function(event) {
+      event.preventDefault();
+      const name = document.getElementById("name").value;
+      const mobile = document.getElementById("mobile").value;
+      const email = document.getElementById("email").value;
+      const activity = document.getElementById("activity").value;
+      const startdate = document.getElementById("startdate").value;
+      const fee = fees[activity] || 0;
+
+      const options = {
+        key: "rzp_test_1DP5mmOlF5G5ag",
+        amount: fee * 100,
+        currency: "INR",
+        name: "Navjeevan School",
+        description: "Activity Registration Fee",
+        handler: function (response) {
+          fetch("https://script.google.com/macros/s/AKfycbwxjtpKyc0IreAlbd1KCopKIliy3tAbQJmYvJN8n3ceS2PYpD7pGThlM4nXAEy0oq3x/exec", {
+            method: "POST",
+            mode: "no-cors",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              name, mobile, email, activity, startdate, fee,
+              payment_id: response.razorpay_payment_id
+            })
+          });
+          alert(\"✅ Payment successful! ID: \" + response.razorpay_payment_id);
+          document.getElementById(\"registrationForm\").reset();
+        },
+        prefill: { name, email, contact: mobile },
+        theme: { color: \"#003366\" }
+      };
+
+      const rzp = new Razorpay(options);
+      rzp.open();
+    });
+  </script>
+</body>
+</html>
