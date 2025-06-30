@@ -4,6 +4,17 @@
   <meta charset="UTF-8" />
   <title>Navjeevan Activities - Home</title>
   <link rel="stylesheet" href="style.css" />
+  <style>
+    .modal ul {
+      text-align: left;
+      padding-left: 20px;
+    }
+    .modal img {
+      max-width: 100%;
+      height: auto;
+      margin: 10px 0;
+    }
+  </style>
 </head>
 <body>
   <!-- Navbar -->
@@ -60,16 +71,47 @@
   <div class="modal" id="activityModal">
     <div class="modal-content">
       <h3 id="activityTitle"></h3>
-      <p id="activityDetails"></p>
+      <div id="activityDetails"></div>
       <button onclick="closeModal()">Close</button>
     </div>
   </div>
 
   <script>
     const activityDescriptions = {
-      Football: `⚽ <strong>Football</strong><br>Days: Monday, Wednesday, Thursday<br>Time: 7:00 PM – 8:00 PM<br>Fee: ₹5000` ,
-      Cricket: `🏏 <strong>Cricket</strong><br>Days: Tuesday & Friday (7–8:30 PM)<br>Saturday & Sunday (7–8:30 AM)<br>Fee: ₹6000`,
-      Gymnastics: `🤸‍♀️ <strong>Gymnastics</strong><br>Days: Monday & Wednesday<br>Time: 7:30 PM – 8:30 PM<br>Fee: ₹7000`
+      Football: `
+        <img src="football.jpg" alt="Football" />
+        <p><strong>⚽ Football</strong></p>
+        <ul>
+          <li><strong>Days:</strong> Monday, Wednesday, Thursday</li>
+          <li><strong>Time:</strong> 7:00 PM – 8:00 PM</li>
+          <li><strong>Coach:</strong> Mr. Sameer Sheikh</li>
+          <li><strong>Location:</strong> Navjeevan Ground</li>
+          <li><strong>Fee:</strong> ₹5000 for 3 months</li>
+          <li><strong>Gear Required:</strong> Shoes, Shin Guards</li>
+        </ul>` ,
+
+      Cricket: `
+        <img src="cricket.jpg" alt="Cricket" />
+        <p><strong>🏏 Cricket</strong></p>
+        <ul>
+          <li><strong>Days:</strong> Tue & Fri (7–8:30 PM), Sat & Sun (7–8:30 AM)</li>
+          <li><strong>Coach:</strong> Mr. Rajesh Patil</li>
+          <li><strong>Location:</strong> Navjeevan Sports Complex</li>
+          <li><strong>Fee:</strong> ₹6000 for 3 months</li>
+          <li><strong>Gear Required:</strong> Cricket Kit, Helmet</li>
+        </ul>` ,
+
+      Gymnastics: `
+        <img src="gymnastics.jpg" alt="Gymnastics" />
+        <p><strong>🤸‍♀️ Gymnastics</strong></p>
+        <ul>
+          <li><strong>Days:</strong> Monday & Wednesday</li>
+          <li><strong>Time:</strong> 7:30 PM – 8:30 PM</li>
+          <li><strong>Instructor:</strong> Ms. Reena Shah</li>
+          <li><strong>Location:</strong> School Indoor Hall</li>
+          <li><strong>Fee:</strong> ₹7000 for 3 months</li>
+          <li><strong>Dress Code:</strong> Comfortable Gym Attire</li>
+        </ul>`
     };
 
     function openModal(activity) {
