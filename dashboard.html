@@ -66,10 +66,6 @@
           const timeDiff = end - today;
           const daysLeft = timeDiff > 0 ? Math.ceil(timeDiff / (1000 * 60 * 60 * 24)) : 0;
 
-          const formattedStart = start.toLocaleDateString("en-IN", {
-            day: '2-digit', month: '2-digit', year: 'numeric'
-          });
-
           const tr = document.createElement("tr");
           tr.innerHTML = `
             <td>${row.timestamp}</td>
@@ -77,7 +73,7 @@
             <td>${row.mobile}</td>
             <td>${row.email}</td>
             <td>${row.activity}</td>
-            <td>${formattedStart}</td>
+            <td>${row.startdate}</td>
             <td>${daysLeft} days</td>
             <td>₹${row.fee}</td>
             <td>${row.payment_id}</td>
