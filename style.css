@@ -181,6 +181,8 @@ table td {
   text-align: left;
   vertical-align: top;
   white-space: nowrap;
+  max-width: 140px;
+  overflow-wrap: break-word;
 }
 
 @media (max-width: 992px) {
