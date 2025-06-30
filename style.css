@@ -4,6 +4,7 @@ body {
   font-family: 'Segoe UI', sans-serif;
   background-color: #f9f9f9;
   color: #333;
+  line-height: 1.6;
 }
 
 h1, h2, h3 {
@@ -13,7 +14,7 @@ h1, h2, h3 {
 /* Navbar */
 header {
   background-color: #1a237e;
-  padding: 12px 0;
+  padding: 14px 0;
   color: white;
 }
 
@@ -27,20 +28,20 @@ header {
 }
 
 .logo {
-  font-size: 1.6rem;
+  font-size: 1.8rem;
   font-weight: bold;
 }
 
 .nav-links {
   list-style: none;
   display: flex;
-  gap: 20px;
+  gap: 24px;
 }
 
 .nav-links li a {
   color: white;
   text-decoration: none;
-  padding: 6px 12px;
+  padding: 8px 16px;
   border-radius: 6px;
   transition: 0.3s;
 }
@@ -58,23 +59,20 @@ header {
 /* Hero Section */
 .hero {
   text-align: center;
-  padding: 60px 20px;
+  padding: 70px 20px;
   background: linear-gradient(to right, #3f51b5, #5c6bc0);
   color: white;
 }
 
 .hero h1 {
-  font-size: 2.5rem;
-}
-
-.hero p {
-  margin: 20px 0;
+  font-size: 2.7rem;
+  margin-bottom: 16px;
 }
 
 .cta-button {
   background-color: #ff9800;
   color: black;
-  padding: 12px 24px;
+  padding: 14px 28px;
   text-decoration: none;
   font-weight: bold;
   border-radius: 8px;
@@ -87,7 +85,7 @@ header {
 
 /* Activities Section */
 .activities {
-  padding: 40px 20px;
+  padding: 50px 20px;
   text-align: center;
 }
 
@@ -95,7 +93,7 @@ header {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
-  gap: 20px;
+  gap: 24px;
   margin-top: 30px;
 }
 
@@ -104,7 +102,7 @@ header {
   border-radius: 10px;
   box-shadow: 0 4px 10px rgba(0,0,0,0.1);
   width: 280px;
-  padding: 16px;
+  padding: 20px;
   text-align: center;
 }
 
@@ -116,21 +114,24 @@ header {
 }
 
 .activity-card h3 {
-  margin-top: 12px;
+  margin-top: 14px;
 }
 
 /* Form Section */
 form {
   max-width: 600px;
-  margin: auto;
-  display: flex;
-  flex-direction: column;
+  margin: 40px auto;
+  padding: 20px;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
 }
 
 form label {
   font-weight: 500;
-  margin-top: 10px;
+  margin-top: 18px;
   margin-bottom: 6px;
+  display: block;
 }
 
 input[type="text"],
@@ -140,16 +141,17 @@ input[type="password"],
 input[type="number"],
 input[type="date"],
 select {
-  padding: 10px;
-  margin-bottom: 16px;
+  padding: 12px;
+  margin-bottom: 20px;
   border-radius: 6px;
   border: 1px solid #ccc;
   font-size: 16px;
   width: 100%;
+  box-sizing: border-box;
 }
 
 button {
-  padding: 12px;
+  padding: 14px;
   font-size: 16px;
   border-radius: 6px;
   border: none;
@@ -167,7 +169,7 @@ button:hover {
 table {
   width: 100%;
   border-collapse: collapse;
-  margin-top: 20px;
+  margin-top: 30px;
   font-size: 14px;
 }
 
@@ -181,7 +183,6 @@ table td {
   padding: 12px;
   border: 1px solid #ccc;
   text-align: left;
-  vertical-align: top;
 }
 
 table tr:nth-child(even) {
@@ -197,7 +198,7 @@ table tr:nth-child(even) {
 
 #searchInput {
   width: 60%;
-  padding: 10px;
+  padding: 12px;
   margin-bottom: 20px;
   border-radius: 6px;
   border: 1px solid #ccc;
@@ -220,8 +221,8 @@ footer {
   background-color: #1a237e;
   color: white;
   text-align: center;
-  padding: 20px 0;
-  margin-top: 40px;
+  padding: 24px 0;
+  margin-top: 60px;
 }
 
 /* Modal */
@@ -271,6 +272,7 @@ footer {
 @media (max-width: 768px) {
   .navbar {
     flex-direction: column;
+    gap: 10px;
   }
 
   .nav-links {
@@ -283,12 +285,8 @@ footer {
     flex-direction: column;
   }
 
-  table {
-    font-size: 12px;
-  }
-
   form {
-    padding: 0 15px;
+    padding: 10px;
   }
 
   #searchInput {
