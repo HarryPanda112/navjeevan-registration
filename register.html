@@ -8,7 +8,6 @@
 </head>
 <body>
 
-  <!-- Navbar -->
   <header>
     <nav class="navbar">
       <div class="logo">Navjeevan Activities</div>
@@ -20,26 +19,28 @@
     </nav>
   </header>
 
-  <!-- Registration Form -->
   <div class="container">
     <h2>Activity Registration</h2>
     <form id="registrationForm">
       <input type="text" id="name" placeholder="Full Name" required />
       <input type="tel" id="mobile" placeholder="Mobile Number" required />
       <input type="email" id="email" placeholder="Email" required />
+
       <label for="activity">Choose Activity</label>
       <select id="activity" required>
         <option value="">-- Select Activity --</option>
-        <option value="Football">⚽ Football</option>
-        <option value="Cricket">🏏 Cricket</option>
-        <option value="Gymnastics">🤸‍♀️ Gymnastics</option>
+        <option value="Football">⚽ Football (₹5000)</option>
+        <option value="Cricket">🏏 Cricket (₹6000)</option>
+        <option value="Gymnastics">🤸‍♀️ Gymnastics (₹7000)</option>
       </select>
+
+      <label for="startdate">Start Date</label>
       <input type="date" id="startdate" required />
+
       <button type="submit">Pay & Register</button>
     </form>
   </div>
 
-  <!-- Footer -->
   <footer>
     <p>&copy; 2025 Navjeevan School | Mira Road, Mumbai | Contact: 9876543210</p>
   </footer>
@@ -51,36 +52,56 @@
       Gymnastics: 7000
     };
 
-    document.getElementById("registrationForm").addEventListener("submit", function(event) {
+    document.getElementById("registrationForm").addEventListener("submit", function (event) {
       event.preventDefault();
-      const name = document.getElementById("name").value;
-      const mobile = document.getElementById("mobile").value;
-      const email = document.getElementById("email").value;
+
+      const name = document.getElementById("name").value.trim();
+      const mobile = document.getElementById("mobile").value.trim();
+      const email = document.getElementById("email").value.trim();
       const activity = document.getElementById("activity").value;
       const startdate = document.getElementById("startdate").value;
-      const fee = fees[activity] || 0;
+      const fee = fees[activity];
+
+      if (!fee) {
+        alert("❗ Please select a valid activity.");
+        return;
+      }
 
       const options = {
-        key: "rzp_test_1DP5mmOlF5G5ag",
+        key: "rzp_test_1DP5mmOlF5G5ag", // Replace with live Razorpay key when ready
         amount: fee * 100,
         currency: "INR",
         name: "Navjeevan School",
-        description: "Activity Registration Fee",
+        description: `${activity} Registration`,
         handler: function (response) {
+          alert("✅ Payment successful! ID: " + response.razorpay_payment_id);
+
+          // Optional: Submit to Google Sheets
           fetch("https://script.google.com/macros/s/AKfycbwxjtpKyc0IreAlbd1KCopKIliy3tAbQJmYvJN8n3ceS2PYpD7pGThlM4nXAEy0oq3x/exec", {
             method: "POST",
             mode: "no-cors",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
-              name, mobile, email, activity, startdate, fee,
+              name,
+              mobile,
+              email,
+              activity,
+              startdate,
+              fee,
               payment_id: response.razorpay_payment_id
             })
           });
-          alert(\"✅ Payment successful! ID: \" + response.razorpay_payment_id);
-          document.getElementById(\"registrationForm\").reset();
+
+          document.getElementById("registrationForm").reset();
         },
-        prefill: { name, email, contact: mobile },
-        theme: { color: \"#003366\" }
+        prefill: {
+          name,
+          email,
+          contact: mobile
+        },
+        theme: {
+          color: "#003366"
+        }
       };
 
       const rzp = new Razorpay(options);
