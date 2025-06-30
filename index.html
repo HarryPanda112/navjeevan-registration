@@ -6,7 +6,6 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-
   <!-- Navbar -->
   <header>
     <nav class="navbar">
@@ -31,22 +30,22 @@
     <h2>Our Activities</h2>
     <div class="activity-list">
 
-      <div class="activity-card">
-        <img src="football.jpeg" alt="Football" />
+      <div class="activity-card" onclick="openModal('Football')">
+        <img src="football.jpg" alt="Football" />
         <h3>Football</h3>
-        <p>⚽ Mon, Wed, Thu - 7PM to 8PM</p>
+        <p>⚽ Monday, Wednesday, Thursday<br>7:00 PM – 8:00 PM</p>
       </div>
 
-      <div class="activity-card">
-        <img src="cricket.jpeg" alt="Cricket" />
+      <div class="activity-card" onclick="openModal('Cricket')">
+        <img src="cricket.jpg" alt="Cricket" />
         <h3>Cricket</h3>
-        <p>🏏 Tue & Fri 7–8:30PM<br>Sat & Sun 7–8:30AM</p>
+        <p>🏏 Tue & Fri: 7–8:30 PM<br>Sat & Sun: 7–8:30 AM</p>
       </div>
 
-      <div class="activity-card">
-        <img src="gymnastics.jpeg" alt="Gymnastics" />
+      <div class="activity-card" onclick="openModal('Gymnastics')">
+        <img src="gymnastics.jpg" alt="Gymnastics" />
         <h3>Gymnastics</h3>
-        <p>🤸‍♀️ Mon & Wed 7:30PM–8:30PM</p>
+        <p>🤸‍♀️ Monday & Wednesday<br>7:30 PM – 8:30 PM</p>
       </div>
 
     </div>
@@ -57,5 +56,31 @@
     <p>&copy; 2025 Navjeevan School | Mira Road, Mumbai | Contact: 9876543210</p>
   </footer>
 
+  <!-- Activity Modal -->
+  <div class="modal" id="activityModal">
+    <div class="modal-content">
+      <h3 id="activityTitle"></h3>
+      <p id="activityDetails"></p>
+      <button onclick="closeModal()">Close</button>
+    </div>
+  </div>
+
+  <script>
+    const activityDescriptions = {
+      Football: `⚽ <strong>Football</strong><br>Days: Monday, Wednesday, Thursday<br>Time: 7:00 PM – 8:00 PM<br>Fee: ₹5000` ,
+      Cricket: `🏏 <strong>Cricket</strong><br>Days: Tuesday & Friday (7–8:30 PM)<br>Saturday & Sunday (7–8:30 AM)<br>Fee: ₹6000`,
+      Gymnastics: `🤸‍♀️ <strong>Gymnastics</strong><br>Days: Monday & Wednesday<br>Time: 7:30 PM – 8:30 PM<br>Fee: ₹7000`
+    };
+
+    function openModal(activity) {
+      document.getElementById("activityTitle").innerText = activity + " Details";
+      document.getElementById("activityDetails").innerHTML = activityDescriptions[activity];
+      document.getElementById("activityModal").style.display = "block";
+    }
+
+    function closeModal() {
+      document.getElementById("activityModal").style.display = "none";
+    }
+  </script>
 </body>
 </html>
