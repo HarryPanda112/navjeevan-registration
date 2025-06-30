@@ -47,7 +47,13 @@
 
   <script>
     const sheetURL = "https://script.google.com/macros/s/AKfycbwxjtpKyc0IreAlbd1KCopKIliy3tAbQJmYvJN8n3ceS2PYpD7pGThlM4nXAEy0oq3x/exec";
-    
+    function formatDate(dateString) {
+    const d = new Date(dateString);
+    const day = String(d.getDate()).padStart(2, '0');
+    const month = String(d.getMonth() + 1).padStart(2, '0');
+    const year = d.getFullYear();
+    return `${day}-${month}-${year}`;
+  }
 
     fetch(sheetURL)
       .then(response => {
