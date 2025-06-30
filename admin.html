@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin Login - Navjeevan</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+    <h2>Admin Login</h2>
+    <form id="loginForm">
+      <label for="adminUser">Username</label>
+      <input type="text" id="adminUser" placeholder="Enter username" required />
+
+      <label for="adminPass">Password</label>
+      <input type="password" id="adminPass" placeholder="Enter password" required />
+
+      <button type="submit">Login</button>
+    </form>
+  </div>
+
+  <script>
+    document.getElementById("loginForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+      const user = document.getElementById("adminUser").value.trim();
+      const pass = document.getElementById("adminPass").value.trim();
+
+      if (user === "admin" && pass === "1234") {
+        window.location.href = "dashboard.html";
+      } else {
+        alert("❌ Invalid username or password.");
+      }
+    });
+  </script>
+</body>
+</html>

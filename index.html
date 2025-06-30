@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Register - Navjeevan</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+</head>
+<body>
+  <div class="container">
+    <h2>Activity Registration</h2>
+    <form id="registrationForm">
+      <input type="text" id="name" placeholder="Full Name" required />
+      <input type="tel" id="mobile" placeholder="Mobile Number" required />
+      <input type="email" id="email" placeholder="Email" required />
+
+      <label for="activity">Choose Activity</label>
+      <select id="activity" class="styled-select" required>
+        <option value="">-- Select Activity --</option>
+        <option value="Football">⚽ Football (Mon, Wed, Thu - 7PM to 8PM)</option>
+        <option value="Cricket">🏏 Cricket (Tue, Fri 7–8:30PM & Sat, Sun 7–8:30AM)</option>
+        <option value="Gymnastics">🤸‍♀️ Gymnastics (Mon & Wed 7:30–8:30PM)</option>
+      </select>
+
+      <input type="date" id="startdate" required />
+      <input type="number" id="fee" placeholder="Fee (optional)" value="500" />
+      <button type="submit">Pay & Register</button>
+    </form>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
