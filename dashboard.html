@@ -4,60 +4,24 @@
   <meta charset="UTF-8">
   <title>Dashboard - Navjeevan</title>
   <link rel="stylesheet" href="style.css" />
-  <style>
-    .container {
-      max-width: 1000px;
-      margin: 40px auto;
-      background: #fff;
-      padding: 30px;
-      border-radius: 12px;
-      box-shadow: 0 8px 25px rgba(0,0,0,0.1);
-      overflow-x: auto;
-    }
-
-    h2 {
-      text-align: center;
-      color: #003366;
-      margin-bottom: 20px;
-    }
-
-    .loader {
-      text-align: center;
-      font-weight: bold;
-      padding: 20px;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 14px;
-    }
-
-    table thead {
-      background-color: #003366;
-      color: white;
-    }
-
-    table th, table td {
-      padding: 12px 10px;
-      border: 1px solid #ccc;
-      text-align: left;
-      vertical-align: middle;
-      word-wrap: break-word;
-    }
-
-    table tr:nth-child(even) {
-      background-color: #f9f9f9;
-    }
-
-    .expired {
-      background-color: #ffe6e6 !important;
-    }
-  </style>
 </head>
 <body>
+  <header>
+    <nav class="navbar">
+      <div class="logo">Navjeevan Activities</div>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="register.html">Register</a></li>
+        <li><a href="admin.html" class="admin-btn">Admin Login</a></li>
+      </ul>
+    </nav>
+  </header>
+
   <div class="container">
     <h2>📋 Registration Dashboard</h2>
+    <input type="text" id="searchInput" placeholder="Search by name, activity or email...">
+    <button onclick="exportToCSV()">Export CSV</button>
+
     <div class="loader" id="loader">Loading data...</div>
     <table id="dataTable" style="display:none;">
       <thead>
@@ -77,8 +41,12 @@
     </table>
   </div>
 
+  <footer>
+    <p>&copy; 2025 Navjeevan School | Mira Road, Mumbai | Contact: 9876543210</p>
+  </footer>
+
   <script>
-    const sheetURL = "https://script.google.com/macros/s/AKfycbwxjtpKyc0IreAlbd1KCopKIliy3tAbQJmYvJN8n3ceS2PYpD7pGThlM4nXAEy0oq3x/exec"; // Replace with your actual script ID
+    const sheetURL = "https://script.google.com/macros/s/AKfycbwxjtpKyc0IreAlbd1KCopKIliy3tAbQJmYvJN8n3ceS2PYpD7pGThlM4nXAEy0oq3x/exec";
 
     fetch(sheetURL)
       .then(response => {
@@ -91,18 +59,25 @@
         const loader = document.getElementById("loader");
 
         data.forEach(row => {
-          const daysLeft = calculateDaysLeft(row.startdate);
+          const start = new Date(row.startdate);
+          const end = new Date(start);
+          end.setMonth(end.getMonth() + 3);
+          const today = new Date();
+          const timeDiff = end - today;
+          const daysLeft = timeDiff > 0 ? Math.ceil(timeDiff / (1000 * 60 * 60 * 24)) : 0;
+
+          const formattedStart = start.toLocaleDateString("en-IN", {
+            day: '2-digit', month: '2-digit', year: 'numeric'
+          });
+
           const tr = document.createElement("tr");
-
-          if (daysLeft <= 10) tr.classList.add("expired");
-
           tr.innerHTML = `
             <td>${row.timestamp}</td>
             <td>${row.name}</td>
             <td>${row.mobile}</td>
             <td>${row.email}</td>
             <td>${row.activity}</td>
-            <td>${formatDate(row.startdate)}</td>
+            <td>${formattedStart}</td>
             <td>${daysLeft} days</td>
             <td>₹${row.fee}</td>
             <td>${row.payment_id}</td>
@@ -118,26 +93,31 @@
         console.error("Fetch error:", error);
       });
 
-    function formatDate(inputDate) {
-      const date = new Date(inputDate);
-      if (isNaN(date)) return inputDate;
-      const dd = String(date.getDate()).padStart(2, '0');
-      const mm = String(date.getMonth() + 1).padStart(2, '0');
-      const yyyy = date.getFullYear();
-      return `${dd}-${mm}-${yyyy}`;
+    function exportToCSV() {
+      const rows = document.querySelectorAll("table tr");
+      const csv = Array.from(rows).map(row => {
+        return Array.from(row.children).map(cell => `"${cell.innerText}"`).join(",");
+      }).join("\n");
+
+      const blob = new Blob([csv], { type: "text/csv" });
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.setAttribute("hidden", "");
+      a.setAttribute("href", url);
+      a.setAttribute("download", "registrations.csv");
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
     }
 
-    function calculateDaysLeft(startDate) {
-      const start = new Date(startDate);
-      if (isNaN(start)) return "-";
-      const today = new Date();
-      const endDate = new Date(start);
-      endDate.setMonth(endDate.getMonth() + 3);
-
-      const diffTime = endDate - today;
-      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-      return diffDays > 0 ? diffDays : 0;
-    }
+    document.getElementById("searchInput").addEventListener("input", function() {
+      const filter = this.value.toLowerCase();
+      const rows = document.querySelectorAll("#dataTable tbody tr");
+      rows.forEach(row => {
+        const text = row.innerText.toLowerCase();
+        row.style.display = text.includes(filter) ? "" : "none";
+      });
+    });
   </script>
 </body>
 </html>
