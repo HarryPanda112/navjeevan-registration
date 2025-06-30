@@ -1,4 +1,6 @@
-/* ================== RESET + GLOBAL ================== */
+/* style.css */
+
+/* Reset + Global */
 body {
   margin: 0;
   font-family: 'Segoe UI', sans-serif;
@@ -10,7 +12,7 @@ h1, h2, h3 {
   margin: 0;
 }
 
-/* ================== NAVBAR ================== */
+/* Navbar */
 header {
   background-color: #1a237e;
   padding: 12px 0;
@@ -55,7 +57,7 @@ header {
   font-weight: bold;
 }
 
-/* ================== HERO SECTION ================== */
+/* Hero Section */
 .hero {
   text-align: center;
   padding: 60px 20px;
@@ -85,7 +87,7 @@ header {
   background-color: #ffa726;
 }
 
-/* ================== ACTIVITIES ================== */
+/* Activities Section */
 .activities {
   padding: 40px 20px;
   text-align: center;
@@ -119,7 +121,7 @@ header {
   margin-top: 12px;
 }
 
-/* ================== FORMS ================== */
+/* Forms */
 form {
   max-width: 600px;
   margin: auto;
@@ -157,7 +159,7 @@ button:hover {
   background-color: #0059b3;
 }
 
-/* ================== DASHBOARD TABLE ================== */
+/* Dashboard Table */
 table {
   width: 100%;
   border-collapse: collapse;
@@ -209,7 +211,7 @@ button[onclick="exportToCSV()"]:hover {
   background-color: #218838;
 }
 
-/* ================== MODAL (for Razorpay success) ================== */
+/* Modal */
 .modal {
   display: none;
   position: fixed;
@@ -252,7 +254,7 @@ button[onclick="exportToCSV()"]:hover {
   background-color: #0059b3;
 }
 
-/* ================== FOOTER ================== */
+/* Footer */
 footer {
   background-color: #1a237e;
   color: white;
@@ -261,10 +263,11 @@ footer {
   margin-top: 40px;
 }
 
-/* ================== DEVICE RESPONSIVENESS ================== */
+/* Responsive Utilities */
 .mobile-only {
   display: block;
 }
+
 .desktop-only {
   display: none;
 }
