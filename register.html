@@ -24,9 +24,14 @@
   <div class="container">
     <h2>Activity Registration</h2>
     <form id="registrationForm">
-      <input type="text" id="name" placeholder="Full Name" required />
-      <input type="tel" id="mobile" placeholder="Mobile Number" required />
-      <input type="email" id="email" placeholder="Email" required />
+      <label for="name">Full Name</label>
+      <input type="text" id="name" required />
+
+      <label for="mobile">Mobile Number</label>
+      <input type="tel" id="mobile" required />
+
+      <label for="email">Email</label>
+      <input type="email" id="email" required />
 
       <label for="activity">Choose Activity</label>
       <select id="activity" required>
@@ -43,21 +48,20 @@
     </form>
   </div>
 
-  <!-- Success Modal -->
-  <div id="successModal" class="modal">
-    <div class="modal-content">
-      <h3>✅ Payment Successful!</h3>
-      <p id="paymentMsg">Thank you for registering.</p>
-      <button onclick="closeModal()">Close</button>
-    </div>
-  </div>
-
   <!-- Footer -->
   <footer>
     <p>&copy; 2025 Navjeevan School | Mira Road, Mumbai | Contact: 9876543210</p>
   </footer>
 
-  <!-- JS Script -->
+  <!-- Modal -->
+  <div class="modal" id="successModal">
+    <div class="modal-content">
+      <h3>✅ Payment Successful!</h3>
+      <p>Thank you for registering. Your payment has been received.</p>
+      <button onclick="closeModal()">OK</button>
+    </div>
+  </div>
+
   <script>
     const fees = {
       Football: 5000,
@@ -81,14 +85,13 @@
       }
 
       const options = {
-        key: "rzp_test_1DP5mmOlF5G5ag", // Replace with your live Razorpay key
+        key: "rzp_test_1DP5mmOlF5G5ag", // Replace with live Razorpay key
         amount: fee * 100,
         currency: "INR",
         name: "Navjeevan School",
         description: `${activity} Registration`,
         handler: function (response) {
-          showSuccessModal(response.razorpay_payment_id);
-
+          // Submit to Google Sheets
           fetch("https://script.google.com/macros/s/AKfycbwxjtpKyc0IreAlbd1KCopKIliy3tAbQJmYvJN8n3ceS2PYpD7pGThlM4nXAEy0oq3x/exec", {
             method: "POST",
             mode: "no-cors",
@@ -105,6 +108,7 @@
           });
 
           document.getElementById("registrationForm").reset();
+          document.getElementById("successModal").style.display = "block";
         },
         prefill: {
           name,
@@ -119,11 +123,6 @@
       const rzp = new Razorpay(options);
       rzp.open();
     });
-
-    function showSuccessModal(paymentId) {
-      document.getElementById("paymentMsg").innerHTML = `Your Payment ID is <strong>${paymentId}</strong>`;
-      document.getElementById("successModal").style.display = "block";
-    }
 
     function closeModal() {
       document.getElementById("successModal").style.display = "none";
